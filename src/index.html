@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Guardias</title>
+</head>
+
+<body>
+  <div id="form-box">
+    <h1>Calendario de Guardias</h1>
+    <label for="año">Año:</label>
+    <select name="año" id="año">
+    </select>
+    <label for="zona">Zona:</label>
+    <select name="zona" id="zona">
+      <option disabled selected value="default">Selecciona una zona.</option>
+    </select>
+    <br><br>
+    <label for="mes">Mes:</label>
+    <select name="mes" id="mes">
+      <option selected value=0>Todos</option>
+      <option value=1>Enero</option>
+      <option value=2>Febrero</option>
+      <option value=3>Marzo</option>
+      <option value=4>Abril</option>
+      <option value=5>Mayo</option>
+      <option value=6>Junio</option>
+      <option value=7>Julio</option>
+      <option value=8>Agosto</option>
+      <option value=9>Septiembre</option>
+      <option value=10>Octubre</option>
+      <option value=11>Noviembre</option>
+      <option value=12>Diciembre</option>
+    </select>
+    <input type="submit" id="descargar" value="Descargar">
+    <div id="error-message">Seleccione la zona</div>
+  </div>
+
+</body>
+
+</html>

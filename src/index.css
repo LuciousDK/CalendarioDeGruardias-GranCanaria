@@ -1,0 +1,36 @@
+body {
+  font-family: Arial;
+  text-align: center;
+  background: rgb(0, 3, 91);
+  background: linear-gradient(
+    225deg,
+    rgba(0, 3, 91, 1) 0%,
+    rgba(7, 78, 150, 1) 30%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  position: relative;
+}
+body h1 {
+  margin-top: 0;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+#form-box {
+  background-color: rgba(231, 254, 255, 0.644);
+  border-radius: 10px;
+  border: 3px solid rgba(46, 46, 46, 0.61);
+  padding: 50px;
+  position: absolute;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+}
+#error-message {
+  position: relative;
+  top: 20px;
+  color: red;
+  display: none;
+}
