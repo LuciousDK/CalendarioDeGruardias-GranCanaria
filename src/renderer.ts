@@ -29,9 +29,19 @@
 import './index.css'; import $ from "jquery";
 import * as httpActions from "./https-actions";
 import * as pdfGenerator from "./pdf-generator";
-
+import { remote, ipcRenderer } from "electron"
+const app = remote.app
 $("#zona").on("change", () => {
     $("#error-message").css("display", "none")
+})
+
+$("#carpeta-input").val(app.getPath("downloads"))
+
+$("#carpeta-button").on("click", () => {
+    ipcRenderer.send('selectDirectory');
+})
+ipcRenderer.on("directorySelected", (event, message) => {
+    $("#carpeta-input").val(message)
 })
 
 async function setOptions() {
@@ -44,8 +54,9 @@ setOptions()
 
 $("#descargar").on("click", async (event) => {
     event.preventDefault();
-    
+
     if (validate()) {
+        let directory:string = $("#carpeta-input").val().toString();
         let months: Mes[] = separateData(
             (await httpActions.fetchCalendarioHTML(
                 $("#año").val().toString(), $("#zona").val().toString())))
@@ -64,14 +75,14 @@ $("#descargar").on("click", async (event) => {
                 mes: months[Number.parseInt($("#mes").val().toString()) - 1],
                 farmacias: pharmacies
             }
-            pdfGenerator.generateDocx(data)
+            pdfGenerator.generateDocx(data,directory,Number.parseInt($("#mes").val().toString())+" - ")
         } else {
             months.forEach((month, index) => {
                 let data: DataStructure = {
                     mes: month,
                     farmacias: pharmacies
                 }
-                pdfGenerator.generateDocx(data, `${index+1} - `);
+                pdfGenerator.generateDocx(data, directory, `${index + 1} - `);
             })
         }
     }

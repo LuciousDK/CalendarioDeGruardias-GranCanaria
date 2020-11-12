@@ -13,7 +13,7 @@ const THICKCELLBORDERS = {
     left: thick,
     bottom: thick
 }
-export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, index?: string) {
+export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory:string, index: string) {
 
     if (!fs.existsSync("output")) {
         fs.mkdir("output", (err) => {
@@ -84,18 +84,18 @@ export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmaci
             spacing: { after: 200 }
         }), table2],
     });
-    exportDocx(doc, `${index}${mes.mes}(1)`);
-    exportDocx(doc2, `${index}${mes.mes}(2)`);
+    exportDocx(doc, `${directory}/${index}${mes.mes}(1)`);
+    exportDocx(doc2, `${directory}/${index}${mes.mes}(2)`);
 }
 
-export async function generatePDF(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, index?: string) {
+export async function generatePDF(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory:string, index: string) {
 //TODO
     
 }
 
 function exportDocx(doc: Document, name: string) {
     docx.Packer.toBuffer(doc).then(buffer => {
-        fs.writeFileSync(`${app.getPath("userData")}/output/${name}.docx`, buffer);
+        fs.writeFileSync(`${name}.docx`, buffer);
     });
 
 }

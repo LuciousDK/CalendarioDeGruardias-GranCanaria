@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -6,22 +6,39 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
   app.quit();
 }
 
+//hold the array of directory paths selected by user
+
+let dir;
+
+ipcMain.on('selectDirectory', function () {
+
+  dir = dialog.showOpenDialogSync(mainWindow, {
+
+    properties: ['openDirectory'],
+
+
+  });
+  if (dir) {
+    mainWindow.webContents.send("directorySelected", dir[0])
+  }
+
+});
+let mainWindow: BrowserWindow;
 const createWindow = (): void => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
       enableRemoteModule: true,
-    }
+    },
+    resizable:false,
   });
-
+  // mainWindow.setMenu(null)
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  mainWindow.maximize()
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();

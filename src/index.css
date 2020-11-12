@@ -24,13 +24,50 @@ body {
   border: 3px solid rgba(46, 46, 46, 0.61);
   padding: 50px;
   position: absolute;
-  top: 40%;
+  top: 50%;
   transform: translate(-50%, -50%);
   left: 50%;
+  width: 390px;
 }
 #error-message {
   position: relative;
   top: 20px;
   color: red;
   display: none;
+}
+#carpeta {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+#carpeta > label {
+  width: 90px;
+}
+#carpeta-input {
+  width: calc(100% - 90px);
+  height: 14px;
+}
+#carpeta-button {
+  border-radius: 0px;
+  border: 1px solid grey;
+  position: absolute;
+  right: 0;
+}
+button:focus {
+  outline: none;
+}
+#carpeta-button:hover {
+  background-color: rgb(216, 216, 216);
+}
+#carpeta-button:active {
+  background-color: rgb(255, 255, 255);
+}
+#descargar{
+  border:none;
+  background-color: rgb(0, 102, 255);
+  height: 30px;
+  width: 100px;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
 }
