@@ -24,7 +24,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "Calendario De Guardias - Gran Canaria"
+            "name": "GuardiasGranCanaria"
           }
         },
         {
