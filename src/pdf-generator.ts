@@ -13,10 +13,10 @@ const THICKCELLBORDERS = {
     left: thick,
     bottom: thick
 }
-export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory:string, index: string) {
+export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory: string, index: string) {
 
-    if (!fs.existsSync("output")) {
-        fs.mkdir("output", (err) => {
+    if (!fs.existsSync(`${directory}/guardias`)) {
+        fs.mkdir(`${directory}/guardias`, (err) => {
             if (err) {
                 return console.error(err);
             }
@@ -84,13 +84,13 @@ export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmaci
             spacing: { after: 200 }
         }), table2],
     });
-    exportDocx(doc, `${directory}/${index}${mes.mes}(1)`);
-    exportDocx(doc2, `${directory}/${index}${mes.mes}(2)`);
+    exportDocx(doc, `${directory}/guardias/${index}${mes.mes}(1)`);
+    exportDocx(doc2, `${directory}/guardias/${index}${mes.mes}(2)`);
 }
 
-export async function generatePDF(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory:string, index: string) {
-//TODO
-    
+export async function generatePDF(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory: string, index: string) {
+    //TODO
+
 }
 
 function exportDocx(doc: Document, name: string) {
@@ -138,7 +138,6 @@ function bodyCell(text: string): TableCell {
 function tableBodyRow(dia: string, medioDia: Farmacia, diaCompleto: Farmacia): TableRow[] {
 
     let returnData: TableRow[] = [];
-
 
     if (medioDia != null && diaCompleto == null) {
         let row = new TableRow({
@@ -209,6 +208,34 @@ function tableBodyRow(dia: string, medioDia: Farmacia, diaCompleto: Farmacia): T
                 return returnData;
             }
 
-
-    return null;
+    let row = new TableRow({
+        children: [new TableCell({
+            children: [
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: dia,
+                            size: 18, font: "Arial",
+                        }),
+                    ],
+                    alignment: AlignmentType.CENTER
+                })],
+            verticalAlign: VerticalAlign.CENTER,
+            shading: { fill: "red" }
+        }),
+        new TableCell({
+            children: [],
+            shading: { fill: "red" }
+        }),
+        new TableCell({
+            children: [],
+            shading: { fill: "red" }
+        }),
+        new TableCell({
+            children: [],
+            shading: { fill: "red" }
+        })]
+    });
+    returnData.push(row);
+    return returnData;
 }

@@ -29,7 +29,7 @@
 import './index.css'; import $ from "jquery";
 import * as httpActions from "./https-actions";
 import * as pdfGenerator from "./pdf-generator";
-import { remote, ipcRenderer } from "electron"
+import { remote, ipcRenderer, dialog } from "electron"
 const app = remote.app
 $("#zona").on("change", () => {
     $("#error-message").css("display", "none")
@@ -56,7 +56,7 @@ $("#descargar").on("click", async (event) => {
     event.preventDefault();
 
     if (validate()) {
-        let directory:string = $("#carpeta-input").val().toString();
+        let directory: string = $("#carpeta-input").val().toString();
         let months: Mes[] = separateData(
             (await httpActions.fetchCalendarioHTML(
                 $("#año").val().toString(), $("#zona").val().toString())))
@@ -70,20 +70,26 @@ $("#descargar").on("click", async (event) => {
             direccion = direccion.slice(1, direccion.length - 1)
             pharmacies[codigoFarmacia] = { codigo: codigoFarmacia, nombre: titular, direccion: direccion }
         })
-        if ($("#mes").val() != "0") {
-            let data: DataStructure = {
-                mes: months[Number.parseInt($("#mes").val().toString()) - 1],
-                farmacias: pharmacies
-            }
-            pdfGenerator.generateDocx(data,directory,Number.parseInt($("#mes").val().toString())+" - ")
-        } else {
-            months.forEach((month, index) => {
+        try {
+            if ($("#mes").val() != "0") {
                 let data: DataStructure = {
-                    mes: month,
+                    mes: months[Number.parseInt($("#mes").val().toString()) - 1],
                     farmacias: pharmacies
                 }
-                pdfGenerator.generateDocx(data, directory, `${index + 1} - `);
-            })
+                pdfGenerator.generateDocx(data, directory, Number.parseInt($("#mes").val().toString()) + " - ")
+            } else {
+                months.forEach((month, index) => {
+                    let data: DataStructure = {
+                        mes: month,
+                        farmacias: pharmacies
+                    }
+                    pdfGenerator.generateDocx(data, directory, `${index + 1} - `);
+                })
+            }
+        } catch (error) {
+            ipcRenderer.send("error",error)
+        } finally {
+            ipcRenderer.send("download-completed")
         }
     }
 })

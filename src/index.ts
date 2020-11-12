@@ -6,23 +6,28 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
   app.quit();
 }
 
-//hold the array of directory paths selected by user
-
-let dir;
-
 ipcMain.on('selectDirectory', function () {
-
+  let dir;
   dir = dialog.showOpenDialogSync(mainWindow, {
-
     properties: ['openDirectory'],
-
-
   });
   if (dir) {
     mainWindow.webContents.send("directorySelected", dir[0])
   }
-
 });
+
+ipcMain.on('download-completed', function () {
+  dialog.showMessageBoxSync(mainWindow, {
+    message: "Documentos Generados", title: "Finalizado", type: "info"
+  })
+});
+
+ipcMain.on('error', function (event, error) {
+  dialog.showMessageBoxSync(mainWindow, {
+    message: error, title: "Error", type: "error"
+  })
+});
+
 let mainWindow: BrowserWindow;
 const createWindow = (): void => {
   // Create the browser window.
@@ -34,9 +39,9 @@ const createWindow = (): void => {
       webSecurity: false,
       enableRemoteModule: true,
     },
-    resizable:false,
+    resizable: false,
   });
-  // mainWindow.setMenu(null)
+  mainWindow.setMenu(null)
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
