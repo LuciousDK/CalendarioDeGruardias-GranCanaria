@@ -1,8 +1,7 @@
 import * as docx from 'docx';
-import { AlignmentType, Document, Packer, Paragraph, Table, TableCell, TableRow, TextRun, VerticalAlign, WidthType } from 'docx';
-import * as FileSaver from "file-saver";
+import { AlignmentType, Document, Paragraph, Table, TableCell, TableRow, TextRun, VerticalAlign, WidthType } from 'docx';
 import fs from "fs";
-import { DataStructure, Farmacia, Mes } from './renderer';
+import { Farmacia, Mes } from './renderer';
 import { remote } from "electron";
 const app = remote.app;
 
@@ -51,11 +50,11 @@ export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmaci
 
     let table1 = new Table({
         rows: rows1,
-        borders: THICKCELLBORDERS
+        // borders: THICKCELLBORDERS
     });
     let table2 = new Table({
         rows: rows2,
-        borders: THICKCELLBORDERS
+        // borders: THICKCELLBORDERS
     });
     doc.addSection({
         children: [new Paragraph({
@@ -115,7 +114,7 @@ function headerCell(innerText: string, width: number): TableCell {
             alignment: AlignmentType.CENTER
         })],
         width: { size: width, type: WidthType.PERCENTAGE },
-        borders: THICKCELLBORDERS,
+        // borders: THICKCELLBORDERS,
         shading: { fill: "BFBFBF" },
         verticalAlign: VerticalAlign.CENTER
     });
