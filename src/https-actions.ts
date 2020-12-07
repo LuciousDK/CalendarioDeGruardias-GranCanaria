@@ -1,7 +1,7 @@
 import $ from "jquery";
 
 const URLCALENDARIO = "https://www.coflp.org/guardias/calendario.php"
-const URLLEYENDA = "http://coflp.org/guardias/leyenda.php"
+const URLLEYENDA = "https://www.coflp.org/guardias/leyenda.php"
 
 export async function getYearOptions() {
 
