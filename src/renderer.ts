@@ -7,14 +7,18 @@ const app = remote.app
 $("#zona").on("change", () => {
     $("#error-message").css("display", "none")
 })
+if (localStorage.getItem("directory") === null)
+    $("#carpeta-input").val(app.getPath("downloads"))
+else
+   $("#carpeta-input").val(localStorage.getItem("directory"))
 
-$("#carpeta-input").val(app.getPath("downloads"))
 
 $("#carpeta-button").on("click", () => {
     ipcRenderer.send('selectDirectory');
 })
 ipcRenderer.on("directorySelected", (event, message) => {
     $("#carpeta-input").val(message)
+    localStorage.setItem("directory", message)
 })
 
 async function setOptions() {
@@ -47,6 +51,8 @@ $("#descargar").on("click", async (event) => {
             pharmacies[codigoFarmacia] = { codigo: codigoFarmacia, nombre: titular, direccion: direccion }
         })
         try {
+
+            localStorage.setItem("directory", directory)
             if ($("#mes").val() != "0") {
                 let data: DataStructure = {
                     mes: months[Number.parseInt($("#mes").val().toString()) - 1],
