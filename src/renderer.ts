@@ -1,7 +1,8 @@
 
 import './index.css'; import $ from "jquery";
 import * as httpActions from "./https-actions";
-import * as pdfGenerator from "./pdf-generator";
+import * as docxGenerator from "./docx-generator";
+import * as htmlGenerator from "./html-generator";
 import { remote, ipcRenderer, dialog } from "electron"
 const app = remote.app
 $("#zona").on("change", () => {
@@ -10,7 +11,7 @@ $("#zona").on("change", () => {
 if (localStorage.getItem("directory") === null)
     $("#carpeta-input").val(app.getPath("downloads"))
 else
-   $("#carpeta-input").val(localStorage.getItem("directory"))
+    $("#carpeta-input").val(localStorage.getItem("directory"))
 
 
 $("#carpeta-button").on("click", () => {
@@ -34,7 +35,6 @@ setOptions()
 
 $("#descargar").on("click", async (event) => {
     event.preventDefault();
-
     if (validate()) {
         let directory: string = $("#carpeta-input").val().toString();
         let months: Mes[] = separateData(
@@ -50,6 +50,12 @@ $("#descargar").on("click", async (event) => {
             direccion = direccion.slice(1, direccion.length - 1)
             pharmacies[codigoFarmacia] = { codigo: codigoFarmacia, nombre: titular, direccion: direccion }
         })
+        let exportFunction: Function;
+        if ($('input[name="export"]:checked').val() === "docx") {
+            exportFunction = docxGenerator.generateDocx
+        } else {
+            exportFunction = htmlGenerator.generateHTML
+        }
         try {
 
             localStorage.setItem("directory", directory)
@@ -58,14 +64,15 @@ $("#descargar").on("click", async (event) => {
                     mes: months[Number.parseInt($("#mes").val().toString()) - 1],
                     farmacias: pharmacies
                 }
-                pdfGenerator.generateDocx(data, directory, Number.parseInt($("#mes").val().toString()) + " - ")
+                exportFunction(data, directory, Number.parseInt($("#mes").val().toString()) + " - ")
+
             } else {
                 months.forEach((month, index) => {
                     let data: DataStructure = {
                         mes: month,
                         farmacias: pharmacies
                     }
-                    pdfGenerator.generateDocx(data, directory, `${index + 1} - `);
+                    exportFunction(data, directory, `${index + 1} - `)
                 })
             }
         } catch (error) {
