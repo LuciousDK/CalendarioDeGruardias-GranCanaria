@@ -7,9 +7,22 @@
 </head>
 
 <body>
-  <div class="loading-overlay-container" id="loading-overlay"><div class="loading-overlay">
-    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-    </div></div>
+  <div class="loading-overlay-container" id="loading-overlay">
+    <div class="loading-overlay">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
   <div id="form-box" class="hidden">
     <h1>Calendario de Guardias</h1>
     <label for="año">Año:</label>
@@ -36,6 +49,10 @@
       <option value=11>Noviembre</option>
       <option value=12>Diciembre</option>
     </select>
+    <input type="radio" id="html" name="export" value="html" checked>
+    <label for="html">HTML</label>
+    <input type="radio" id="docx" name="export" value="docx">
+    <label for="docx">DOCX</label>
     <br><br>
     <div id="carpeta">
       <label for="carpeta-input">Guardar en:</label>

@@ -50,11 +50,13 @@ export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmaci
 
     let table1 = new Table({
         rows: rows1,
-        // borders: THICKCELLBORDERS
+        width: { size: 100, type: docx.WidthType.PERCENTAGE }, 
+        columnWidths: [4, 6, 35, 55]
     });
     let table2 = new Table({
         rows: rows2,
-        // borders: THICKCELLBORDERS
+        width: { size: 100, type: docx.WidthType.PERCENTAGE },
+        columnWidths: [4, 6, 35, 55]
     });
     doc.addSection({
         children: [new Paragraph({
@@ -87,11 +89,6 @@ export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmaci
     exportDocx(doc2, `${directory}/guardias/${index}${mes.mes}(2)`);
 }
 
-export async function generatePDF(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory: string, index: string) {
-    //TODO
-
-}
-
 function exportDocx(doc: Document, name: string) {
     docx.Packer.toBuffer(doc).then(buffer => {
         fs.writeFileSync(`${name}.docx`, buffer);
@@ -114,7 +111,6 @@ function headerCell(innerText: string, width: number): TableCell {
             alignment: AlignmentType.CENTER
         })],
         width: { size: width, type: WidthType.PERCENTAGE },
-        // borders: THICKCELLBORDERS,
         shading: { fill: "BFBFBF" },
         verticalAlign: VerticalAlign.CENTER
     });
