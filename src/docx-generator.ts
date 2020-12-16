@@ -12,10 +12,10 @@ const THICKCELLBORDERS = {
     left: thick,
     bottom: thick
 }
-export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory: string, index: string) {
+export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory: string, index: string, zona:string) {
 
-    if (!fs.existsSync(`${directory}/guardias`)) {
-        fs.mkdir(`${directory}/guardias`, (err) => {
+    if (!fs.existsSync(`${directory}/Guardias - ${zona}`)) {
+        fs.mkdir(`${directory}/Guardias - ${zona}`, (err) => {
             if (err) {
                 return console.error(err);
             }
@@ -85,8 +85,8 @@ export async function generateDocx(data: { mes: Mes, farmacias: { [codigoFarmaci
             spacing: { after: 200 }
         }), table2],
     });
-    exportDocx(doc, `${directory}/guardias/${index}${mes.mes}(1)`);
-    exportDocx(doc2, `${directory}/guardias/${index}${mes.mes}(2)`);
+    exportDocx(doc, `${directory}/Guardias - ${zona}/${index}${mes.mes}(1)`);
+    exportDocx(doc2, `${directory}/Guardias - ${zona}/${index}${mes.mes}(2)`);
 }
 
 function exportDocx(doc: Document, name: string) {

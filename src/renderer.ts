@@ -36,6 +36,8 @@ setOptions()
 $("#descargar").on("click", async (event) => {
     event.preventDefault();
     if (validate()) {
+        $(event.target).prop('disabled', true);
+        $(event.target).addClass("disabled");
         let directory: string = $("#carpeta-input").val().toString();
         let months: Mes[] = separateData(
             (await httpActions.fetchCalendarioHTML(
@@ -64,7 +66,7 @@ $("#descargar").on("click", async (event) => {
                     mes: months[Number.parseInt($("#mes").val().toString()) - 1],
                     farmacias: pharmacies
                 }
-                exportFunction(data, directory, Number.parseInt($("#mes").val().toString()) + " - ")
+                exportFunction(data, directory, Number.parseInt($("#mes").val().toString()) + " - ",$("#zona").val().toString())
 
             } else {
                 months.forEach((month, index) => {
@@ -72,13 +74,15 @@ $("#descargar").on("click", async (event) => {
                         mes: month,
                         farmacias: pharmacies
                     }
-                    exportFunction(data, directory, `${index + 1} - `)
+                    exportFunction(data, directory, `${index + 1} - `,$("#zona").val().toString())
                 })
             }
         } catch (error) {
             ipcRenderer.send("error", error)
         } finally {
             ipcRenderer.send("download-completed")
+            $(event.target).prop('disabled', false);
+            $(event.target).removeClass("disabled");
         }
     }
 })

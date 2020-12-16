@@ -63,7 +63,7 @@ button:focus {
 #carpeta-button:active {
   background-color: rgb(255, 255, 255);
 }
-#descargar {
+.descargar {
   border: none;
   background-color: rgb(0, 102, 255);
   height: 30px;
@@ -171,4 +171,7 @@ button:focus {
 
 .hidden{
   display: none;
+}
+.disabled{
+  background-color: lightgray;
 }

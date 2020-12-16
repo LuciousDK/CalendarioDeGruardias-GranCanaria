@@ -4,10 +4,10 @@ import { remote } from "electron";
 import $ from "jquery"
 const app = remote.app;
 
-export async function generateHTML(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory: string, index: string) {
+export async function generateHTML(data: { mes: Mes, farmacias: { [codigoFarmacia: string]: Farmacia } }, directory: string, index: string, zona:string) {
 
-    if (!fs.existsSync(`${directory}/guardias`)) {
-        fs.mkdir(`${directory}/guardias`, (err) => {
+    if (!fs.existsSync(`${directory}/Guardias - ${zona}`)) {
+        fs.mkdir(`${directory}/Guardias - ${zona}`, (err) => {
             if (err) {
                 return console.error(err);
             }
@@ -17,12 +17,12 @@ export async function generateHTML(data: { mes: Mes, farmacias: { [codigoFarmaci
     let legend = data.farmacias;
     if (mes.dias.length > 14) {
         let doc1 = createDocument(mes.mes, mes.dias.splice(15), legend);
-        exportHTML(doc1, `${directory}/guardias/${index}${mes.mes}(2)`)
+        exportHTML(doc1, `${directory}/Guardias - ${zona}/${index}${mes.mes}(2)`)
         let doc2 = createDocument(mes.mes, mes.dias, legend);
-        exportHTML(doc2, `${directory}/guardias/${index}${mes.mes}(1)`)
+        exportHTML(doc2, `${directory}/Guardias - ${zona}/${index}${mes.mes}(1)`)
     } else {
         let doc = createDocument(mes.mes, mes.dias, legend);
-        exportHTML(doc, `${directory}/guardias/${index}${mes.mes}`)
+        exportHTML(doc, `${directory}/Guardias - ${zona}/${index}${mes.mes}`)
     }
 
 }
