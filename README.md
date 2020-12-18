@@ -12,7 +12,7 @@ Ir a la carpeta donde desea guardarlo y ejecutar:
 ```
 Una vez ejecutado `npm run make` vamos a `{carpeta del proyecto} > out > Calendario De Guardias - Gran Canaria-win32-x64`. Aquí encontraremos un ejecutable de la aplicacion: `Calendario De Guardias - Gran Canaria.exe`
 Y en `out > make > {sistema operativo} > {arquitectura}` encontraremos el instalador del programa:
-`Calendario De Guardias - Gran Canaria-1.0.0 Setup.exe
+`Calendario De Guardias - Gran Canaria-1.0.0 Setup.exe`
 ## Uso
 Una vez iniciado el programa habrá que seleccionar la zona y opcionalmente el año, el/los meses y la carpeta destino donde se guardaran los documentos generados.
 ## AVISO
